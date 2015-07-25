@@ -60,6 +60,12 @@ public class RitualEffectGrowth extends RitualEffect
                             {
                                 this.canDrainReagent(ritualStone, ReagentRegistry.aquasalusReagent, aquasalusDrain, true);
                             }
+                            
+                            // Check one block higher for crops that need a special block under the soil
+                            if (SpellHelper.hydrateSoil(world, x + i, y + 2, z + j))
+                            {
+                                this.canDrainReagent(ritualStone, ReagentRegistry.aquasalusReagent, aquasalusDrain, true);
+                            }
                         }
                     }
                 }
@@ -79,6 +85,18 @@ public class RitualEffectGrowth extends RitualEffect
                         {
                             SpellHelper.sendIndexedParticleToAllAround(world, x, y, z, 20, world.provider.dimensionId, 3, x, y, z);
                             block.updateTick(world, x + i, y + 2, z + j, world.rand);
+                            flag++;
+                        }
+                    }
+                    
+                    // Check one block higher for crops that need a special block under the soil
+                    block = world.getBlock(x + i, y + 3, z + j);
+
+                    if (block instanceof IPlantable || block instanceof IGrowable)
+                    {
+                        {
+                            SpellHelper.sendIndexedParticleToAllAround(world, x, y, z, 20, world.provider.dimensionId, 4, x, y, z);
+                            block.updateTick(world, x + i, y + 3, z + j, world.rand);
                             flag++;
                         }
                     }
